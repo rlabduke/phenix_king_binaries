@@ -65,8 +65,7 @@ def run(args):
                       "-Xms256m",
                       "-Xmx1024m",
                       "-cp",
-                      king_jar+":"+gluegen_jar+":"+jogl_jar+":"+extratools_jar+":"+chiropraxis_jar,
-                      "-Djava.library.path="+jogl_path,
+                      king_jar+":"+extratools_jar+":"+chiropraxis_jar,
                       "king.KingMain"])
   args_str = " " + " ".join(args)
   king_job = easy_run.call(command=king_cmd + args_str)
