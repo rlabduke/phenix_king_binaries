@@ -32,8 +32,8 @@ def run(args):
   for line in java_version_out.stdout_lines:
     if line.startswith('java version'):
       java_version = line.split(" ")[2]
-      if float(java_version[1:4]) < 1.5:
-        print "KiNG requires java 1.5.0 or greater.  Please install a more recent java."
+      if float(java_version[1:4]) < 1.6:
+        print "KiNG requires java 1.6.0 or greater.  Please install a more recent java."
         sys.exit()
 
   #load main jars
@@ -44,28 +44,36 @@ def run(args):
   #determine JOGL version
   pf = platform.platform()
   if re.search("Darwin",pf):
-    jogl_jar = libtbx.env.under_dist("king","macosx/jogl.jar")
+    jogl_jar = libtbx.env.under_dist("king","macosx/jogl-all.jar")
+    jogl_natives_jar = libtbx.env.under_dist("king","macosx/jogl-all-natives-macosx-universal.jar")
     gluegen_jar = libtbx.env.under_dist("king","macosx/gluegen-rt.jar")
+    gluegen_natives_jar = libtbx.env.under_dist("king","macosx/gluegen-rt-natives-macosx-universal.jar")
     jogl_path = libtbx.env.under_dist("king","macosx")
   elif re.search("Linux",pf):
     if re.search("x86_64",pf):
-      jogl_jar = libtbx.env.under_dist("king","linux_amd64/jogl.jar")
+      jogl_jar = libtbx.env.under_dist("king","linux_amd64/jogl-all.jar")
+      jogl_natives_jar = libtbx.env.under_dist("king","linux_amd64/jogl-all-natives-linux-amd64.jar")
       gluegen_jar = libtbx.env.under_dist("king","linux_amd64/gluegen-rt.jar")
+      gluegen_natives_jar = libtbx.env.under_dist("king","linux_amd64/gluegen-rt-natives-linux-amd64.jar")
       jogl_path = libtbx.env.under_dist("king","linux_amd64")
     else:
-      jogl_jar = libtbx.env.under_dist("king","linux_i586/jogl.jar")
+      jogl_jar = libtbx.env.under_dist("king","linux_i586/jogl-all.jar")
+      jogl_natives_jar = libtbx.env.under_dist("king", "linux_i586/jogl-all-natives-linux-i586.jar")
       gluegen_jar = libtbx.env.under_dist("king","linux_i586/gluegen-rt.jar")
+      gluegen_natives_jar = libtbx.env.under_dist("king","linux_i586/gluegen-rt-natives-linux-i586.jar")
       jogl_path = libtbx.env.under_dist("king","linux_i586")
   else:
     print "could not determine OS, not using openGL"
     jogl_jar = ""
+    jogl_natives_jar = ""
     gluegen_jar = ""
+    gluegen_natives_jar = ""
     jogl_path = ""
   king_cmd = " ".join(["java",
                       "-Xms256m",
                       "-Xmx1024m",
                       "-cp",
-                      king_jar+":"+extratools_jar+":"+chiropraxis_jar,
+                      ":".join([king_jar,extratools_jar,chiropraxis_jar,jogl_jar,jogl_natives_jar,gluegen_jar,gluegen_natives_jar]),
                       "king.KingMain"])
   args_str = " " + " ".join(args)
   king_job = easy_run.call(command=king_cmd + args_str)
