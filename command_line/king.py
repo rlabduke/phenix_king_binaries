@@ -1,4 +1,5 @@
 # LIBTBX_SET_DISPATCHER_NAME phenix.king
+# LIBTBX_SET_DISPATCHER_NAME molprobity.king
 import libtbx.load_env
 from libtbx import easy_run
 import os, sys, subprocess, platform, re
