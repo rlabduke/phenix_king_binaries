@@ -20,6 +20,16 @@ def which(program):
 
     return None
 
+def is_java_too_old_for_king(version_string):
+  #java versions prior to 8 output version numbers like "1.5.0_65" or "1.8.0_151"
+  #apparently java 9 outputs version numbers like "9-Debian"
+  #java 10 outputs version numbers like "10" 2018-03-20
+  if version_string.count(".") == 2:
+    float(java_version[0:3])
+    if float(java_version[0:3]) < 1.6:
+      return True
+  return False
+
 def run(args):
   #test for java on system
   which_java = which("java")
@@ -31,9 +41,9 @@ def run(args):
   java_version_out = easy_run.fully_buffered(command="java -version", join_stdout_stderr=True)
   java_version = None
   for line in java_version_out.stdout_lines:
-    if line.startswith('java version'):
-      java_version = line.split(" ")[2]
-      if float(java_version[1:4]) < 1.6:
+    if 'version' in line:
+      version_string = line.split(" ")[2].strip("\"")
+      if is_java_too_old_for_king(version_string):
         print "KiNG requires java 1.6.0 or greater.  Please install a more recent java."
         sys.exit()
 
