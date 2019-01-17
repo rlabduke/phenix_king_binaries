@@ -25,8 +25,8 @@ def is_java_too_old_for_king(version_string):
   #apparently java 9 outputs version numbers like "9-Debian"
   #java 10 outputs version numbers like "10" 2018-03-20
   if version_string.count(".") == 2:
-    float(java_version[0:3])
-    if float(java_version[0:3]) < 1.6:
+    float(version_string[0:3])
+    if float(version_string[0:3]) < 1.6:
       return True
   return False
 
