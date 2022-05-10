@@ -1,5 +1,6 @@
 # LIBTBX_SET_DISPATCHER_NAME phenix.king
 # LIBTBX_SET_DISPATCHER_NAME molprobity.king
+from __future__ import print_function
 import libtbx.load_env
 from libtbx import easy_run
 import os, sys, subprocess, platform, re
@@ -34,7 +35,7 @@ def run(args):
   #test for java on system
   which_java = which("java")
   if which_java is None:
-    print "Java not detected on your system.  Please make sure java is in your path."
+    print("Java not detected on your system.  Please make sure java is in your path.")
     sys.exit()
 
   #test java version
@@ -44,7 +45,7 @@ def run(args):
     if 'version' in line:
       version_string = line.split(" ")[2].strip("\"")
       if is_java_too_old_for_king(version_string):
-        print "KiNG requires java 1.6.0 or greater.  Please install a more recent java."
+        print("KiNG requires java 1.6.0 or greater.  Please install a more recent java.")
         sys.exit()
 
   #load main jars
@@ -74,7 +75,7 @@ def run(args):
       gluegen_natives_jar = libtbx.env.under_dist("king","linux_i586/gluegen-rt-natives-linux-i586.jar")
       jogl_path = libtbx.env.under_dist("king","linux_i586")
   else:
-    print "could not determine OS, not using openGL"
+    print("could not determine OS, not using openGL")
     jogl_jar = ""
     jogl_natives_jar = ""
     gluegen_jar = ""
