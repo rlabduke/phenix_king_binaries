@@ -76,11 +76,12 @@ def run(args):
       jogl_path = libtbx.env.under_dist("king","linux_i586")
   else:
     print("could not determine OS, not using openGL")
-    jogl_jar = ""
-    jogl_natives_jar = ""
-    gluegen_jar = ""
-    gluegen_natives_jar = ""
-    jogl_path = ""
+  #disable jogl since there seems to be a bug with java openjdk version "15.0.1" 2020-10-20 and jogl 2.3.2 causing king to not even start up
+  jogl_jar = ""
+  jogl_natives_jar = ""
+  gluegen_jar = ""
+  gluegen_natives_jar = ""
+  jogl_path = ""
   king_cmd = " ".join(["java",
                       "-Xms256m",
                       "-Xmx1024m",
